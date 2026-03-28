@@ -35,6 +35,7 @@ from main.Home.routes import index
 from main.Predictions.routes import prediction
 from main.Search.routes import searchs
 from main.Admins.routes import admin
+from main.Error.handler import errors
 
 app.register_blueprint(users)
 app.register_blueprint(info)
@@ -43,3 +44,4 @@ app.register_blueprint(index)
 app.register_blueprint(prediction)
 app.register_blueprint(searchs)
 app.register_blueprint(admin)
+app.register_blueprint(errors)

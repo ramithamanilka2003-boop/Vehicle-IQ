@@ -1,0 +1,20 @@
+{% extends "errors/base.html" %}
+{% block title %}500 Server Error{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center text-center py-24 px-6">
+    <span class="material-symbols-outlined text-error text-6xl mb-4">error</span>
+    
+    <h1 class="text-4xl font-headline font-extrabold text-error mb-2">500</h1>
+    <h2 class="text-xl font-headline font-bold mb-4">Something Went Wrong</h2>
+    
+    <p class="text-on-surface-variant max-w-md mb-6">
+        An unexpected error occurred. Please try again later.
+    </p>
+
+    <a href="{{ url_for('index.home') }}" 
+       class="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary/90 transition">
+        Go Home
+    </a>
+</div>
+{% endblock %}
