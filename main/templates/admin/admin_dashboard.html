@@ -27,20 +27,19 @@
 
 <!-- Stats Grid -->
 <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-    <!-- Stat Card 1 -->
+    <!-- Stat Card 1: Total Vehicles -->
     <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
         <div class="absolute -right-6 -top-6 w-24 h-24 bg-primary-fixed/20 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
         <div class="flex items-center justify-between mb-4 relative z-10">
             <div class="w-12 h-12 bg-primary-fixed/30 rounded-xl flex items-center justify-center text-primary-container">
                 <span class="material-symbols-outlined text-2xl">directions_car</span>
             </div>
-            <span class="text-xs font-bold text-primary bg-primary-container text-white px-2 py-1 rounded shadow-sm">+12 Today</span>
         </div>
-        <p class="text-4xl font-black font-headline text-primary relative z-10">1,247</p>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">{{ vehicles_count }}</p>
         <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Total Registry</p>
     </article>
     
-    <!-- Stat Card 2 -->
+    <!-- Stat Card 2: Total Predictions -->
     <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
         <div class="absolute -right-6 -top-6 w-24 h-24 bg-tertiary-fixed/20 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
         <div class="flex items-center justify-between mb-4 relative z-10">
@@ -48,24 +47,23 @@
                 <span class="material-symbols-outlined text-2xl">search_insights</span>
             </div>
         </div>
-        <p class="text-4xl font-black font-headline text-primary relative z-10">324</p>
-        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Searches Today</p>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">{{ predictions_count }}</p>
+        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Total Predictions</p>
     </article>
     
-    <!-- Stat Card 3 -->
+    <!-- Stat Card 3: Active Users -->
     <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
         <div class="absolute -right-6 -top-6 w-24 h-24 bg-secondary-fixed/20 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
         <div class="flex items-center justify-between mb-4 relative z-10">
             <div class="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container">
                 <span class="material-symbols-outlined text-2xl">group</span>
             </div>
-            <span class="text-xs font-bold bg-error-container text-on-error-container px-2 py-1 rounded shadow-sm flex items-center gap-1"><span class="material-symbols-outlined text-[10px]">trending_down</span> 3%</span>
         </div>
-        <p class="text-4xl font-black font-headline text-primary relative z-10">892</p>
-        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Active Users</p>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">{{ users_count }}</p>
+        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Registered Users</p>
     </article>
     
-    <!-- Stat Card 4 -->
+    <!-- Stat Card 4: Feedbacks -->
     <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 relative overflow-hidden group hover:shadow-md transition-shadow">
         <div class="absolute -right-6 -top-6 w-24 h-24 bg-surface-container-higher rounded-full group-hover:scale-150 transition-transform duration-500"></div>
         <div class="flex items-center justify-between mb-4 relative z-10">
@@ -73,8 +71,8 @@
                 <span class="material-symbols-outlined text-2xl">chat</span>
             </div>
         </div>
-        <p class="text-4xl font-black font-headline text-primary relative z-10">47</p>
-        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">New Feedback</p>
+        <p class="text-4xl font-black font-headline text-primary relative z-10">{{ feedbacks_count }}</p>
+        <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1 relative z-10">Total Feedback</p>
     </article>
 </section>
 
@@ -85,42 +83,33 @@
             <h3 class="text-xl font-bold font-headline text-primary flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary-fixed">vital_signs</span> Recent Activity Stream
             </h3>
-            <button class="text-xs font-bold text-primary hover:underline">View Log</button>
         </div>
         
         <div class="space-y-4">
-            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/10">
-                <div class="w-10 h-10 bg-primary-fixed/20 rounded-full flex items-center justify-center text-primary-container shrink-0 mt-1">
-                    <span class="material-symbols-outlined text-sm">directions_car</span>
+            {% if activities %}
+                {% for activity in activities %}
+                <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/10">
+                    <div class="w-10 h-10 {{ activity.bg_class }} rounded-full flex items-center justify-center shrink-0 mt-1">
+                        <span class="material-symbols-outlined text-sm"
+                            {% if activity.icon == 'star' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>
+                            {{ activity.icon }}
+                        </span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-on-surface text-sm">{{ activity.title }}</h4>
+                        <p class="text-on-surface-variant text-sm mt-0.5 leading-relaxed">{{ activity.description }}</p>
+                        <p class="text-[10px] font-black uppercase text-outline mt-2 tracking-widest">{{ activity.time }}</p>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="font-bold text-on-surface text-sm">Vehicle Added to Registry</h4>
-                    <p class="text-on-surface-variant text-sm mt-0.5 leading-relaxed">System Admin appended Toyota Camry 2024 to the predictive database matrix.</p>
-                    <p class="text-[10px] font-black uppercase text-outline mt-2 tracking-widest">Just Now</p>
+                {% endfor %}
+            {% else %}
+                <div class="flex items-center justify-center py-12 text-on-surface-variant">
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-4xl mb-3 block opacity-40">history</span>
+                        <p class="text-sm font-bold opacity-60">No recent activity yet</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/10">
-                <div class="w-10 h-10 bg-tertiary-fixed/20 rounded-full flex items-center justify-center text-tertiary-container shrink-0 mt-1">
-                    <span class="material-symbols-outlined text-sm">search</span>
-                </div>
-                <div>
-                    <h4 class="font-bold text-on-surface text-sm">Budget Search Executed</h4>
-                    <p class="text-on-surface-variant text-sm mt-0.5 leading-relaxed">User <span class="font-bold">#8429</span> performed deep query for "Electric SUV".</p>
-                    <p class="text-[10px] font-black uppercase text-outline mt-2 tracking-widest">12:15 PM</p>
-                </div>
-            </div>
-            
-            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/10">
-                <div class="w-10 h-10 bg-secondary-fixed/30 rounded-full flex items-center justify-center text-on-secondary-container shrink-0 mt-1">
-                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                </div>
-                <div>
-                    <h4 class="font-bold text-on-surface text-sm">Feedback Received</h4>
-                    <p class="text-on-surface-variant text-sm mt-0.5 leading-relaxed">"Great search results! Appreciate the fast response time." - User <span class="font-bold">John D.</span></p>
-                    <p class="text-[10px] font-black uppercase text-outline mt-2 tracking-widest">09:42 AM</p>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </article>
 
@@ -158,12 +147,14 @@
                     </div>
                 </div>
                 <div>
+                    {% set max_vehicles = 500 %}
+                    {% set storage_pct = [(vehicles_count / max_vehicles * 100)|round|int, 100]|min %}
                     <div class="flex justify-between text-xs font-bold mb-1">
                         <span class="text-on-surface-variant">Storage Array</span>
-                        <span class="text-primary-fixed">76%</span>
+                        <span class="text-primary-fixed">{{ storage_pct }}%</span>
                     </div>
                     <div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
-                        <div class="h-full bg-primary-fixed w-[76%]"></div>
+                        <div class="h-full bg-primary-fixed" style="width: {{ storage_pct }}%"></div>
                     </div>
                 </div>
             </div>
