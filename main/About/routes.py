@@ -1,5 +1,5 @@
-from flask import render_template,url_for,redirect,flash,Blueprint
-from main import app,db
+from flask import render_template,url_for,redirect,flash,Blueprint,current_app
+from main import db
 from main.About.forms import AddvehicleForm
 from main.models import Vehicles
 from flask_login import current_user
@@ -38,7 +38,7 @@ def add_vehicle():
             photo_file = form.photo.data
             filename = secure_filename(photo_file.filename)
 
-            upload_folder = os.path.join(app.root_path, "static/vehicles")
+            upload_folder = os.path.join(current_app.root_path, "static/vehicles")
             if not os.path.exists(upload_folder):
                 os.makedirs(upload_folder)
 

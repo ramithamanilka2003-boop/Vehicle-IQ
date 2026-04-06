@@ -2,9 +2,6 @@ from main import db,login_manager
 from datetime import datetime
 from flask_login import UserMixin
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 class User(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True,unique=True,nullable=False)
@@ -13,6 +10,9 @@ class User(db.Model,UserMixin):
     password=db.Column(db.String(60),nullable=False)
     is_admin = db.Column(db.Boolean, default=False) 
     predictions=db.relationship('Prediction',backref='user',lazy=True)
+
+    def get_id(self):
+        return f"user:{self.id}"
 
     def __repr__(self):
         return f"User('{self.username}','{self.email}')"
@@ -69,6 +69,9 @@ class Admin(db.Model,UserMixin):
     email=db.Column(db.String(40),unique=True,nullable=False)
     password=db.Column(db.String(60),nullable=False)
     is_admin = db.Column(db.Boolean, default=True)
+
+    def get_id(self):
+        return f"admin:{self.id}"
 
     def __repr__(self):
         return f"Admin('{self.username}','{self.email}')"

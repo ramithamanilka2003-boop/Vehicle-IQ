@@ -55,17 +55,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="space-y-2 mt-4">
-                        {{ form.picture.label(class="text-[10px] font-bold text-primary-fixed uppercase tracking-widest bg-primary-container text-on-primary-container px-3 py-1 rounded inline-block cursor-pointer hover:bg-primary-fixed hover:text-on-primary transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary") }}
-                        <div class="relative overflow-hidden w-full bg-surface-container rounded-xl p-3 flex items-center justify-center border border-dashed border-outline-variant/40 hover:border-primary-fixed hover:bg-surface-container-high transition-colors text-sm font-semibold text-on-surface group">
-                            {{ form.picture(class="absolute inset-0 w-full h-full opacity-0 cursor-pointer text-sm", **{"onchange":"document.getElementById('file-chosen').textContent = this.files[0] ? this.files[0].name : 'No file chosen'"}) }}
-                            <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors mr-2">image</span>
-                            <span id="file-chosen" class="text-on-surface-variant group-hover:text-primary transition-colors">Choose an image file...</span>
-                        </div>
-                        {% if form.picture.errors %}
-                            <p class="text-[10px] text-error mt-1 font-bold pl-1">{{ form.picture.errors[0] }}</p>
-                        {% endif %}
-                    </div>
+
 
                     <div class="pt-4 flex gap-4">
                         {{ form.submit(class="flex-1 py-4 bg-primary text-white font-headline font-black text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", value="Save Profile") }}

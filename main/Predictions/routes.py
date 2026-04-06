@@ -1,11 +1,12 @@
 from flask import render_template,url_for,redirect,flash,Blueprint
-from main import app,db,model,model_columns
 from main.Predictions.forms import VehiclePredictionForm
 from main.models import Prediction
 from flask_login import current_user,login_required
 from main.Admins.decorator import admin_required
 from main.Predictions.utils import convert_form_to_model_input,predict_price
 from sqlalchemy.orm import joinedload
+from main import db
+from flask import current_app
 
 
 prediction=Blueprint('prediction',__name__)
@@ -17,8 +18,10 @@ def predict():
     prediction = None
 
     if form.validate_on_submit():
-        new_car = convert_form_to_model_input(form, model_columns)
-        prediction = predict_price(new_car, model, model_columns)
+        model = current_app.model
+        model_columns = current_app.model_columns
+        new_car = convert_form_to_model_input(form,model_columns)
+        prediction = predict_price(new_car, model,model_columns)
         prediction_record = Prediction(
             model=form.car_model.data,
             model_year=str(form.model_year.data),

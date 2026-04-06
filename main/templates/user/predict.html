@@ -21,7 +21,7 @@
                     <div class="w-10 h-10 rounded-xl bg-primary-fixed/30 flex items-center justify-center text-primary">
                         <span class="material-symbols-outlined">tune</span>
                     </div>
-                    <h3 class="text-xl font-bold font-headline text-primary">Precision Input</h3>
+                    <h3 class="text-xl font-bold font-headline text-primary">Vehicle details</h3>
                 </div>
 
                 <form method="POST" action="/predict" class="space-y-6">
@@ -37,7 +37,7 @@
                         </div>
                         <div class="space-y-1">
                             {{ form.age.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
-                            {{ form.age(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all", placeholder="Age") }}
+                            {{ form.age(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm transition-all",placeholder="Age",readonly=True) }}
                             {% if form.age.errors %}
                                 <p class="text-[10px] text-error mt-1 font-bold">{{ form.age.errors[0] }}</p>
                             {% endif %}
@@ -56,14 +56,14 @@
                         <div class="space-y-1">
                             {{ form.milage.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
                             <div class="relative">
-                                {{ form.milage(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm pr-12 transition-all", placeholder="50000") }}
+                                {{ form.milage(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm pr-12 transition-all", placeholder="Km") }}
                                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-outline uppercase">KM</span>
                             </div>
                         </div>
                         <div class="space-y-1">
                             {{ form.cc.label(class="text-[10px] font-bold text-outline-variant uppercase tracking-widest") }}
                             <div class="relative">
-                                {{ form.cc(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm pr-12 transition-all", placeholder="1500") }}
+                                {{ form.cc(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary-fixed py-3 px-4 text-on-surface font-semibold text-sm pr-12 transition-all", placeholder="CC") }}
                                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-outline uppercase">CC</span>
                             </div>
                         </div>
@@ -234,4 +234,19 @@
         </section>
     </div>
 </div>
+<script>
+    const modelYearInput = document.querySelector("[name='model_year']");
+    const ageInput = document.querySelector("[name='age']");
+
+    modelYearInput.addEventListener("input", function () {
+        const modelYear = parseInt(this.value);
+        const currentYear = new Date().getFullYear();
+
+        if (!isNaN(modelYear) && modelYear > 1980 && modelYear <= currentYear) {
+            ageInput.value = currentYear - modelYear;
+        } else {
+            ageInput.value = "";
+        }
+    });
+</script>
 {% endblock %}

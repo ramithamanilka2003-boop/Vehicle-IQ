@@ -1,5 +1,5 @@
 from flask import render_template,url_for,redirect,flash,Blueprint
-from main import app,db
+from main import db
 from main.Feedbacks.forms import FeedbackForm
 from main.models import Feedback
 from flask_login import current_user,login_required

@@ -1,5 +1,5 @@
-from flask import render_template,url_for,redirect,flash,Blueprint
-from main import app,bcrypt
+from flask import render_template,url_for,redirect,flash,Blueprint,current_app
+from main import bcrypt
 from datetime import datetime
 from main.Admins.forms import AdminLoginForm
 from main.models import Admin, User, Prediction, Vehicles, Feedback

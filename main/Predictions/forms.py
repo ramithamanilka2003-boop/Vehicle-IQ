@@ -92,7 +92,7 @@ class VehiclePredictionForm(FlaskForm):
         "Vehicle Type",
         validators=[DataRequired()],
         choices=[
-            ("car/sedan_car", "Car"),
+            ("car/sedan_car", "Hatchback"),
             ("car/sedan_sedan", "Sedan"),
         ]
     )
