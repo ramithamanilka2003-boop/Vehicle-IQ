@@ -130,7 +130,7 @@
         </div>
         
         <!-- System Health Widget -->
-        <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/20">
+        <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/20 mb-6">
             <h3 class="text-sm font-bold font-headline text-primary mb-4 flex justify-between items-center">
                 Subsystem Health
                 <span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim shadow-[0_0_8px_rgba(0,228,117,1)] animate-pulse"></span>
@@ -156,6 +156,37 @@
                     <div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
                         <div class="h-full bg-primary-fixed" style="width: {{ storage_pct }}%"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Configuration Widget -->
+        <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/20">
+            <h3 class="text-sm font-bold font-headline text-primary mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary-fixed">settings</span> System Configuration
+            </h3>
+            
+            <form method="POST" action="{{ url_for('admin.admin_dashboard') }}" class="space-y-4">
+                {{ config_form.hidden_tag() }}
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black text-outline uppercase tracking-widest">Base Exchange Rate (LKR)</label>
+                    <div class="relative">
+                        {{ config_form.dollar_rate(class="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-2 px-4 text-on-surface font-bold text-sm transition-all", placeholder="e.g. 300.00") }}
+                        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-outline uppercase">LKR</span>
+                    </div>
+                    {% if config_form.dollar_rate.errors %}
+                        <p class="text-[10px] text-error mt-1 font-bold">{{ config_form.dollar_rate.errors[0] }}</p>
+                    {% endif %}
+                </div>
+                <div class="pt-2">
+                    {{ config_form.submit(class="w-full bg-primary text-white font-bold font-headline py-2 px-4 rounded-xl hover:opacity-90 transition-all cursor-pointer text-sm shadow-md shadow-primary/20") }}
+                </div>
+            </form>
+
+            <div class="mt-4 pt-4 border-t border-outline-variant/10">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-outline-variant uppercase">Current Rate</span>
+                    <span class="text-xs font-black text-primary">1 USD = {{ "{:,.2f}".format(current_rate) }} LKR</span>
                 </div>
             </div>
         </div>

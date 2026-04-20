@@ -3,7 +3,7 @@ from main.Predictions.forms import VehiclePredictionForm
 from main.models import Prediction
 from flask_login import current_user,login_required
 from main.Admins.decorator import admin_required
-from main.Predictions.utils import convert_form_to_model_input,predict_price
+from main.Predictions.utils import convert_form_to_model_input,predict_price,apply_dollar_adjustment
 from sqlalchemy.orm import joinedload
 from main import db
 from flask import current_app
@@ -15,13 +15,18 @@ prediction=Blueprint('prediction',__name__)
 @login_required
 def predict():
     form = VehiclePredictionForm()
-    prediction = None
+    base_price = None
+    adjusted_price =None
 
     if form.validate_on_submit():
         model = current_app.model
         model_columns = current_app.model_columns
         new_car = convert_form_to_model_input(form,model_columns)
-        prediction = predict_price(new_car, model,model_columns)
+        base_price = predict_price(new_car, model,model_columns)
+
+        #dollar rate apply
+        adjusted_price =base_price*apply_dollar_adjustment()
+
         prediction_record = Prediction(
             model=form.car_model.data,
             model_year=str(form.model_year.data),
@@ -36,13 +41,16 @@ def predict():
             power_steering=form.power_steering.data,
             push_start=form.push_start.data,
             user_id=current_user.id,
-            price=prediction
+            price=adjusted_price
+
         )
         db.session.add(prediction_record)
         db.session.commit()
         print("Prediction:", prediction)
 
-    return render_template("user/predict.html", form=form, prediction=prediction)
+    history = Prediction.query.filter_by(user_id=current_user.id).order_by(Prediction.id.desc()).limit(5).all()
+
+    return render_template("user/predict.html", form=form, prediction=adjusted_price , history=history)
 
 @prediction.route('/admin/predictions')
 @admin_required

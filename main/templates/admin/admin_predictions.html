@@ -25,7 +25,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/10 text-sm">
-                    {% for p in predictions | reverse %}
+                    {% for p in predictions  %}
                     <tr class="hover:bg-surface-container-lowest/50 transition-colors group">
                         <td class="py-4 px-5 font-bold text-outline text-xs">#{{ loop.index }}</td>
                         <td class="py-4 px-5 text-on-surface-variant font-medium">

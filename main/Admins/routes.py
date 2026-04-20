@@ -1,14 +1,15 @@
-from flask import render_template,url_for,redirect,flash,Blueprint,current_app
+from flask import render_template,url_for,redirect,flash,Blueprint,current_app,request
 from main import bcrypt
 from datetime import datetime
-from main.Admins.forms import AdminLoginForm
+from main.Admins.forms import AdminLoginForm, ConfigForm
 from main.models import Admin, User, Prediction, Vehicles, Feedback
 from flask_login import login_user,logout_user,login_required
 from main.Admins.decorator import admin_required
+from main.utils import get_rate, set_rate
 
 admin=Blueprint('admin',__name__)
 
-@admin.route("/admin/dashboard")
+@admin.route("/admin/dashboard", methods=["GET", "POST"])
 @login_required
 @admin_required
 def admin_dashboard():
@@ -17,8 +18,21 @@ def admin_dashboard():
     users_count = User.query.count()
     feedbacks_count = Feedback.query.count()
     
-    # Fake a unified activity stream using the latest entries from different tables
+    config_form = ConfigForm()
+    current_rate = get_rate()
+
+    if config_form.validate_on_submit():
+        set_rate(float(config_form.dollar_rate.data))
+        flash("System configuration updated successfully", "success")
+        return redirect(url_for('admin.admin_dashboard'))
+
+    # Pre-populate form
+    if request.method == 'GET':
+        config_form.dollar_rate.data = current_rate
+
+    # Activity logic...
     activities = []
+    # ... (rest of the activity logic)
     
     latest_vehicle = Vehicles.query.order_by(Vehicles.id.desc()).first()
     if latest_vehicle:
@@ -68,7 +82,9 @@ def admin_dashboard():
         predictions_count=predictions_count,
         users_count=users_count,
         feedbacks_count=feedbacks_count,
-        activities=activities
+        activities=activities,
+        config_form=config_form,
+        current_rate=current_rate
     )
 
 
@@ -90,3 +106,5 @@ def admin_logout():
     logout_user()
     flash("Logged out successfully", "success")
     return redirect(url_for("admin.admin_login"))
+
+

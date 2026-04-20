@@ -35,8 +35,8 @@ class Prediction(db.Model):
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-def __repr__(self):
-    return f"<Prediction(User={self.user.username}, Model={self.model}, Year={self.model_year}, Price={self.price})>"
+    def __repr__(self):
+        return f"<Prediction(User={self.user.username}, Model={self.model}, Year={self.model_year}, Price={self.price})>"
     
 class Vehicles(db.Model):
     id=db.Column(db.Integer,primary_key=True,unique=True,nullable=False)
@@ -83,4 +83,5 @@ class Budgetrequest(db.Model):
     price=db.Column(db.Integer,nullable=False)
 
     def __repr__(self):
-        return f"Admin('{self.model}','{self.year}','{self.price}')"
+        return f"Budgetrequest('{self.model}','{self.year}','{self.price}')"
+    

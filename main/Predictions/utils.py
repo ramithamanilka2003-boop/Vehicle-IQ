@@ -1,4 +1,5 @@
 import pandas as pd
+from main.utils import get_rate
 
 def convert_form_to_model_input(form, model_columns):
 
@@ -34,3 +35,20 @@ def predict_price(input_dict, model,model_columns):
     prediction = model.predict(input_df)
 
     return round(prediction[0], 2)
+
+
+def apply_dollar_adjustment():
+    dollar_rate = get_rate()
+
+    if 125 < dollar_rate <= 175:
+        factor = 0.542
+    elif 175 < dollar_rate <= 225:
+        factor = 0.8275
+    elif 225 < dollar_rate <= 275:
+        factor = 0.9132
+    elif 275 < dollar_rate <= 325:
+        factor = 1
+    else:  # > 325
+        factor = 1.072
+
+    return factor

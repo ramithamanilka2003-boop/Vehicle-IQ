@@ -18,19 +18,17 @@ def load_user(user_id):
     if ":" in user_id:
         role, uid = user_id.split(":", 1)
         if role == "admin":
-            return Admin.query.get(int(uid))
+            return db.session.get(Admin, int(uid))
         elif role == "user":
-            return User.query.get(int(uid))
+            return db.session.get(User, int(uid))
     
     # Fallback/Backward compatibility for existing sessions (pre-prefix)
-    # However, since prefix is added to models, new logins will use it.
-    # Current sessions might still have raw integers.
     try:
         uid = int(user_id)
-        admin = Admin.query.get(uid)
+        admin = db.session.get(Admin, uid)
         if admin:
             return admin
-        return User.query.get(uid)
+        return db.session.get(User, uid)
     except (ValueError, TypeError):
         return None
 
