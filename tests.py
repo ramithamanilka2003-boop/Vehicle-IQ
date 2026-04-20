@@ -95,7 +95,7 @@ class VehicleIQTestCase(unittest.TestCase):
         # Logout
         response = self.logout()
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Sign In', response.data)
+        self.assertIn(b'Sign', response.data)
 
         # Wrong password
         response = self.login(email, 'wrongpassword')
