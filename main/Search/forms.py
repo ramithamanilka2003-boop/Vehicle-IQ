@@ -27,6 +27,6 @@ class BudgetRequestForm(FlaskForm):
 
 class AddBudgetForm(FlaskForm):
     model=StringField('Model',validators=[DataRequired(),Length(max=20)])
-    year=StringField('Year',validators=[DataRequired(),Length(max=20)])
+    year=IntegerField('Year',validators=[DataRequired()])
     price=IntegerField('Price',validators=[DataRequired()])
     submit = SubmitField('Submit')
