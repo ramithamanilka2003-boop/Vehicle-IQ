@@ -3,6 +3,8 @@ VehicleIQ is a machine learning-based web application that predicts the prices o
 
 Users can input vehicle details through a web interface, and the system processes the data to provide a predicted market price in real time. This helps buyers and sellers make informed decisions by analyzing historical data and trends.
 
+Screnshots 
+
 ![Alt text](https://github.com/ramithax/Vehicle-IQ/blob/1ea0a062e41cc32d22aa71bc9ce690b8bb56380e/Screenshot%202026-04-20%20132312.png)
 ![Alt text](https://github.com/ramithax/Vehicle-IQ/blob/1ea0a062e41cc32d22aa71bc9ce690b8bb56380e/Screenshot%202026-04-26%20195813.png)
 ![Alt text](https://github.com/ramithax/Vehicle-IQ/blob/1ea0a062e41cc32d22aa71bc9ce690b8bb56380e/Screenshot%202026-04-20%20132423.png)
